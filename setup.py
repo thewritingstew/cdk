@@ -4,16 +4,16 @@ except ImportError:
     from distutils.core import setup
 
 config = {
-        'description': 'My Project',
+        'description': 'This is a text-based game with default levels designed by elementary school students.',
         'author': 'Richard Stewart',
-        'url': 'URL to get at it.',
-        'download_url': 'where to download it.',
+        'url': 'https://www.github.com/thewritingstew/cdk',
+        'download_url': '',
         'author_email': 'richard.o.stewart@gmail.com',
         'version': '0.1',
         'install_requires': ['nose'],
-        'packages': ['NAME'],
+        'packages': ['cdk'],
         'scripts': [],
-        'name': 'projectname'
+        'cdk': 'cdk'
     }
 
 setup(**config)
