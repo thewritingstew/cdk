@@ -8,7 +8,7 @@ class Menu(object):
     # dictionary, since I could put a key as the number and the value as 
     # the menu text.
     ## END TODO
-    def __init__(self):
+    def __init__(self, e_gameList):
     
         # TODO take the menu text and put it into another file.
         self.welcomeText = (
@@ -23,10 +23,7 @@ class Menu(object):
         
         # menu options as a dictionary for easy handling on print.
         # TODO replace this with an argument passed from the Engine.py class.
-        self.menuOptions = {
-            '1' : "Carson's game",
-            '2' : "Davis' game"
-        }
+        self.menuOptions = e_gameList
 
         # decorative starting content for menu
         self.menuDecoration = 70*'=' # horizontal rule

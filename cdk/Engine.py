@@ -2,15 +2,19 @@
 from Game import *
 
 # 
-class Engine(object)
+class Engine(object):
 	
-	# TODO Would I create the game objects here? Probably not. 
+    # TODO Would I create the game objects here? Probably not. 
 	
-	def __init__()
-		# TODO create game objects
-        pass
-        
+    def __init__(self):
+        # TODO create game objects
+        self.gameList = {
+            '1' : "Carson's game",
+            '2' : "Davis' game",
+        }
+
     ## 
-    # TODO create some function as needed...maybe menu creator
+    # TODO create some functions as needed...maybe menu creator
     ## 
+    
     

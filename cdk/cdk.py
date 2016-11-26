@@ -1,5 +1,6 @@
 # import statements
 from Menu import *
+from Engine import *
 # from Game import Game
 
 # variables 
@@ -17,8 +18,11 @@ def playGame(num):
 # this while loop runs the full program until the program quits
 while active == 1:
 
+    # create an engine, which will create games
+    engine1 = Engine()
+
     # show the menu TODO something
-    menu = Menu()
+    menu = Menu(engine1.gameList)
     usrChoice = menu.showMenu(prompt)
     
     # execute the choice
