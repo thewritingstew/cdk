@@ -1,34 +1,43 @@
+"""
+Starts the CDK game engine. It is from here that things are processed.
+"""
 # import statements
-from Menu import *
-# from Game import Game
+from context import Context
 
-# variables 
-active = 1
-usrChoice = 0
-prompt = '==>> '
+def create_default_actions():
+    # for items in a file, import the default games and create contexts
+    # for now these items will be hard-coded
+    game_one = Context(name="Carson's game")
+    game_two = Context(name="Davis's game")
 
-def playGame(num):
+    # TODO: add more content to the default games, such as additional contexts
+    # and the like. May want to pull the additional contexts out of a file,
+    # rather than doing them all hard-coded. But hard-coded may be the easiest
+    # answer right now just so I can finish this thing up and move on with
+    # other programming tasks. 
     
-    print "you chose to play game %d" % (num)
-    print "unfortunately, this game isn't ready."
-    print "please press enter to return to the main menu."
-    raw_input()
+    default_menu_items = list((
+        game_one,
+        game_two
+        ))
+    return default_menu_items
 
-# this while loop runs the full program until the program quits
-while active == 1:
 
-    # show the menu TODO something
-    menu = Menu()
-    usrChoice = menu.showMenu(prompt)
+def main():
+    """
+    runs the game
+    """
+    main_menu = Context()  # new menu context
+
+    print("Before: ", main_menu.action_paths)
     
-    # execute the choice
-    if usrChoice > 0:
-        playGame(usrChoice)
-    elif usrChoice == 0:
-        active = 0
-    else:
-        print "We don't recognize that choice, please try again."
-        print "Press enter to make another choice."
-        raw_input(prompt)
+    action_list = create_default_actions()  # create default set of games
+    main_menu.update_action_paths(action_list)  # add games to menu
+    
+##    print(main_menu.support_paths)
+    print("After: ", main_menu.action_paths)
 
-    # loop back around
+
+if __name__ == "__main__":
+    main()
+##    exit(0)
