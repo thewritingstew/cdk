@@ -16,10 +16,10 @@ def create_default_actions():
     # answer right now just so I can finish this thing up and move on with
     # other programming tasks. 
     
-    default_menu_items = list((
-        game_one,
-        game_two
-        ))
+    default_menu_items = {
+        0:game_one,
+        1:game_two
+        }
     return default_menu_items
 
 
@@ -27,17 +27,25 @@ def main():
     """
     runs the game
     """
-    main_menu = Context()  # new menu context
-
-    print("Before: ", main_menu.action_paths)
+    main_menu = Context()  # create the main menu context
+    current_context = main_menu  # set main_menu as current context
     
+    # print("Before: ", main_menu.action_paths)  # DEBUG
+
     action_list = create_default_actions()  # create default set of games
     main_menu.update_action_paths(action_list)  # add games to menu
     
 ##    print(main_menu.support_paths)
-    print("After: ", main_menu.action_paths)
+    # print("After: ", main_menu.action_paths)  # DEBUG
+    
+    while True:
+        current_context.display()  # display current context's display
+        current_context.get_input()  # process the user's input
+        current_context = current_context.next_context()  # get next context
+        if not current_context:
+            break
 
 
 if __name__ == "__main__":
     main()
-##    exit(0)
+    exit(0)
