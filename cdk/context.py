@@ -10,7 +10,7 @@ class Context(object):
                 init_display="", 
                 hint_description="",
                 quit=False,  # TODO: combine quit and help into one
-                help=False  # TODO: call the combined support_type
+                help=False,  # TODO: call the combined support_type
                 ):
         """
         Initializes a Context object. 
@@ -35,7 +35,7 @@ class Context(object):
     def update_action_paths(self, context_list):
         """
         Updates the action paths for a context.
-        :parameter context_list: a tuple of tuples where, for each inner tuple, 
+        :parameter context_list: a list of tuples where the tuple indices are  
             [0] is the string that is the command to go to the context, and 
             [1] is a context.
         """
