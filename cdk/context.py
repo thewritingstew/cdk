@@ -5,38 +5,48 @@ every context that displays things and takes input from the user.
 
 class Context(object):
     
-    def __init__(self, name="", init_display=""):
+    def __init__(
+                self, name="", 
+                init_display="", 
+                hint_description="",
+                quit=False,  # TODO: combine quit and help into one
+                help=False  # TODO: call the combined support_type
+                ):
         """
         Initializes a Context object. 
         :param name: string 
         :return: None
         """
-        self.context_name = name  # name of the context
-        self.action_paths = {
-            'quit':("Quit the game", False),
-            'help':("Get help", ("Type 'hint' to get a list of available actions (if any), "
-                "'q' to return to main menu, "
-                "or 'quit' to exit the game entirely."
-                ))
-            }  # list of navigation contexts, help, quit
+        self.name = name  # name of the context
+        self.hint_description = hint_description  # description for hint menu
+        self.context_path = (self.hint_description, self)
+        self.action_paths = {}  # dict in str:(str, context) format
         self.hints_on = True  # boolean telling whether hints are allowed
         self._goto_context = self  # goto points to self for now
         self._initial_display = init_display  # set initial display
+        self.caller_context = self  # context that called this context
+        self.help_type = help  # determine if this is help type context
+        self.quit_type = quit  # determine if this is quit type context
 
     def execute_choice(self):  # TODO: delete this? Not sure what it does.
         pass
 
 
-    def update_action_paths(self, context_list):        
-        for key in context_list:
-            self.action_paths[key] = context_list[key]
+    def update_action_paths(self, context_list):
+        """
+        Updates the action paths for a context.
+        :parameter context_list: a tuple of tuples where, for each inner tuple, 
+            [0] is the string that is the command to go to the context, and 
+            [1] is a context.
+        """
+        for item in context_list:
+            self.action_paths[item[0]] = item[1].context_path
 
 
     def get_hints(self):  # TODO: update to format dictionary for printing
         if self.hints_on:
             print(
-                "\n",
-                "%10s" % "COMMAND",  # column 1 header
+                "\n%10s" % "COMMAND",  # column 1 header
                 " " * 4,  # print four spaces
                 "ACTION"  # column 2 header
             )
@@ -87,24 +97,27 @@ class Context(object):
         Return the next context to go to 
         :return: context
         """
+        if self.name != '::help' and self.name != '::quit':
+            try:
+                self._goto_context.caller_context = self
+            except AttributeError:
+                pass
         return(self._goto_context)
         
 
     def _process_input(self, usr_in):
         command = usr_in.split()[0]
-        
-        ### if dict keys are not integers, then this try isn't needed
-        # try:  # change input from string to int if applicable
-        #   # command = int(command)
-        # except ValueError:
-        #   # pass
-        ###
-        
-        if command == 'q':  # alternate of 'quit'
-            self._goto_context = self.action_paths['quit'][1]
-        elif command == 'h' or command == 'help':  # alternate of 'help'
-            print(self.action_paths['help'][1])  # TODO: iss #6 temp fix
-            # self._goto_context = self.action_paths['help'][1]
+        quit_commands = ('::q', '::quit', 'q', 'quit')  # alternates of quit
+        help_commands = ('::h', '::help', 'h', 'help')  # alternates of help
+
+        if command in quit_commands:
+            self._goto_context = self.action_paths['::quit'][1]
+        elif command in help_commands:
+            self._goto_context = self.action_paths['::help'][1]
+        elif command == '::r':
+            self._goto_context = self.caller_context  # send back to caller
+        elif command == '::hint::':
+            self.get_hints()
         elif command in self.action_paths:
             self._goto_context = self.action_paths[command][1]
         else:

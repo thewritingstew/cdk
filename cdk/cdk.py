@@ -3,26 +3,22 @@ Starts the CDK game engine. It is from here that things are processed.
 """
 # import statements
 from context import Context
+import rooms as rm
 
 def create_default_actions():
-    # for items in a file, import the default games and create contexts
-    # for now these items will be hard-coded
-    game_one = Context(name="Carson's game",
-        init_display="Welcome to Carson's game. Enter 'start' to proceed...")
+    game_items, help_items = rm.build_contexts()
     
-    game_two = Context(name="Davis's game",
-        init_display="Welcome to Davis's game. Enter 'start' to proceed...")
+    default_menu_items = [(str(game_items.index(item)), item)
+        for item 
+        in game_items
+        ]
+    default_menu_items.extend([(item.name, item) 
+        for item 
+        in help_items
+        ])
+        
+    print(default_menu_items)
 
-    # TODO: add more content to the default games, such as additional contexts
-    # and the like. May want to pull the additional contexts out of a file,
-    # rather than doing them all hard-coded. But hard-coded may be the easiest
-    # answer right now just so I can finish this thing up and move on with
-    # other programming tasks. 
-    
-    default_menu_items = {
-        '0':(game_one.context_name, game_one),
-        '1':(game_two.context_name, game_two)
-        }
     return default_menu_items
 
 
@@ -55,5 +51,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main()  # sets up and plays the game (maybe break out someday)
     exit(0)
